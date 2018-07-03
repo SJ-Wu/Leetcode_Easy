@@ -1,27 +1,50 @@
 #include <stdio.h>
+#define SIZE 4
 
-int searchInsert(int* nums, int numsSize, int target) {
-    int numCnt;
-    for (numCnt = 0; numCnt < numsSize; numCnt++)
+int removeElement(int* nums, int numsSize, int val) {
+    int numCnt, removeCnt;
+    int testCnt;
+    removeCnt = 0;
+    for (numCnt = 0; numCnt < (numsSize - removeCnt); numCnt++)
     {
-        if (target == nums[numCnt])
+        if (val == nums[numCnt])
         {
-            return numCnt;
-        }
-        else if (target < nums[numCnt])
-        {
-            return numCnt;
+            while((val == nums[(numsSize - 1) - removeCnt]) && (removeCnt != numsSize))
+            {
+                removeCnt++;
+            }
+
+            if (numCnt < (numsSize - removeCnt))
+            {
+                nums[numCnt] = nums[(numsSize - 1) - removeCnt];
+                nums[(numsSize - 1) - removeCnt] = val;
+                printf("C.R|%d.%d|", numCnt, removeCnt);
+                for (testCnt = 0; testCnt < SIZE; testCnt++)
+                {
+                    printf("%d.", nums[testCnt]);
+                }
+                printf("\n");
+            }
+            if (removeCnt == numsSize) break;
         }
     }
-    return numCnt;
+    return numsSize - removeCnt;
 }
 
 int main(void)
 {
-    int array[4] = {1, 3, 5, 6};
-    int targetNum = 0;
+    int nums[SIZE] = {3, 2, 2, 3};
+    int val = 3;
+    int testCnt, testSize;
 
-    printf("Insert position|%d\n", searchInsert(array, 4, targetNum));
+    testSize = removeElement(nums, SIZE, val);
+    printf("Remove element|%d\nTotal length|%d\n", val, testSize);
+
+    for (testCnt = 0; testCnt < SIZE; testCnt++)
+    {
+        printf("%d.", nums[testCnt]);
+    }
+    printf("\n");
     getchar();
     return 0;
 }
