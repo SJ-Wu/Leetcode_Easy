@@ -1,44 +1,26 @@
 #include <stdio.h>
-#define SIZE 4
+#define SIZE 10
 
-int removeElement(int* nums, int numsSize, int val) {
-    int numCnt, removeCnt;
-    int testCnt;
-    removeCnt = 0;
-    for (numCnt = 0; numCnt < (numsSize - removeCnt); numCnt++)
+int removeDuplicates(int* nums, int numsSize)
+{
+    int numCnt, onlyCnt;
+    for (numCnt = 1, onlyCnt = 1; numCnt < numsSize; numCnt++)
     {
-        if (val == nums[numCnt])
+        if (nums[numCnt] != nums[numCnt-1])
         {
-            while((val == nums[(numsSize - 1) - removeCnt]) && (removeCnt != numsSize))
-            {
-                removeCnt++;
-            }
-
-            if (numCnt < (numsSize - removeCnt))
-            {
-                nums[numCnt] = nums[(numsSize - 1) - removeCnt];
-                nums[(numsSize - 1) - removeCnt] = val;
-                printf("C.R|%d.%d|", numCnt, removeCnt);
-                for (testCnt = 0; testCnt < SIZE; testCnt++)
-                {
-                    printf("%d.", nums[testCnt]);
-                }
-                printf("\n");
-            }
-            if (removeCnt == numsSize) break;
+            nums[onlyCnt++] = nums[numCnt];
         }
     }
-    return numsSize - removeCnt;
+    return onlyCnt;
 }
 
 int main(void)
 {
-    int nums[SIZE] = {3, 2, 2, 3};
-    int val = 3;
+    int nums[SIZE] = {0,0,1,1,1,2,2,3,3,4};
     int testCnt, testSize;
 
-    testSize = removeElement(nums, SIZE, val);
-    printf("Remove element|%d\nTotal length|%d\n", val, testSize);
+    testSize = removeDuplicates(nums, SIZE);
+    printf("Remove duplicates length|%d\n", testSize);
 
     for (testCnt = 0; testCnt < SIZE; testCnt++)
     {
