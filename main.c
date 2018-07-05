@@ -1,27 +1,37 @@
 #include <stdio.h>
+#include <math.h>
+#include <limits.h>
 
-int searchInsert(int* nums, int numsSize, int target) {
-    int numCnt;
-    for (numCnt = 0; numCnt < numsSize; numCnt++)
+int reverse(int x)
+{
+    long output;
+    int digits, digiTotal;
+    int xCopy = x;
+
+    digiTotal = 0;
+    output    = 0;
+    while(xCopy != 0)
     {
-        if (target == nums[numCnt])
-        {
-            return numCnt;
-        }
-        else if (target < nums[numCnt])
-        {
-            return numCnt;
-        }
+        xCopy /= 10;
+        digiTotal++;
     }
-    return numCnt;
+
+    xCopy = x;
+    for (digits = 0; digits < digiTotal; digits++)
+    {
+        if (output > INT_MAX || output < INT_MIN) return 0;
+        output += (xCopy % 10) * pow(10, (digiTotal-1) - digits);
+        xCopy /= 10;
+    }
+    return output;
 }
 
 int main(void)
 {
-    int array[4] = {1, 3, 5, 6};
-    int targetNum = 0;
+    int inputNum = 123;
+    int outputNum;
 
-    printf("Insert position|%d\n", searchInsert(array, 4, targetNum));
+    printf("Reverse Integer|%d\n", reverse(inputNum));
     getchar();
     return 0;
 }
