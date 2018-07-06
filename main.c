@@ -12,22 +12,34 @@ int* findDisappearedNumbers(int* nums, int numsSize, int* returnSize)
     disappearNum = malloc(sizeof(int) * numsSize);
     disaCnt = 0;
 
-    for(numTarget = 1; numTarget <= numsSize; numTarget++)
+    for(numCnt = 0; numCnt < numsSize; numCnt++)
     {
-        for(numCnt = 0; numCnt < numsSize; numCnt++)
+        disappearNum[numCnt] = numCnt + 1;
+        printf("%d.", disappearNum[numCnt]);
+    }
+    printf("\n");
+
+    for(numCnt = 0; numCnt < numsSize; numCnt++)
+    {
+        if (nums[numCnt] == disappearNum[nums[numCnt] - 1])
         {
-            if (numTarget == nums[numCnt])
-            {
-                break;
-            }
+            disappearNum[nums[numCnt] - 1] = 0;
         }
-        if (numCnt == numsSize)
+        printf("%d.", disappearNum[numCnt]);
+    }
+    printf("\n");
+
+    for(numCnt = 0; numCnt < numsSize; numCnt++)
+    {
+        if(disappearNum[numCnt] != 0)
         {
-            printf("Target|%d.%d\n", numTarget, *returnSize);
-            disappearNum[disaCnt] = numTarget;
+            disappearNum[disaCnt] = disappearNum[numCnt];
             disaCnt++;
         }
+        printf("%d.", disappearNum[numCnt]);
     }
+    printf("\n");
+
     *returnSize = disaCnt;
     return disappearNum;
 }
@@ -40,7 +52,7 @@ int main(void)
 
     output = findDisappearedNumbers(input, 8, &returnSize);
     printf("Rsize.%d\n", returnSize);
-    for(int testCnt = 0; testCnt < 2; testCnt++)
+    for(int testCnt = 0; testCnt < returnSize; testCnt++)
     {
         printf("%d.", output[testCnt]);
     }
