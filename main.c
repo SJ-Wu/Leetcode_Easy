@@ -3,21 +3,7 @@
 
 int trailingZeroes(int n)
 {
-    int cntFive;
-    int numTemp;
-
-    cntFive = 0;
-
-    for (n; n > 0; n--)
-    {
-        numTemp = n;
-        while(numTemp % 5 == 0)
-        {
-            cntFive++;
-            numTemp /= 5;
-        }
-    }
-    return cntFive;
+    return n == 0 ? 0 : n / 5 + trailingZeroes(n / 5);
 }
 
 int main(void)
