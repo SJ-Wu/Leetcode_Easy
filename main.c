@@ -2,23 +2,13 @@
 
 int singleNumber(int* nums, int numsSize)
 {
-    int iCnt, iSingle, numTemp, flag;
+    int answer, iSingle;
+    answer = 0;
     for (iSingle = 0; iSingle < numsSize; iSingle++)
     {
-        for (iCnt = iSingle + 1; iCnt < numsSize; iCnt++)
-        {
-            printf("Cmp|%d.%d\n", nums[iSingle], nums[iCnt]);
-            if (nums[iSingle] == nums[iCnt])
-            {
-                numTemp       = nums[iCnt];
-                nums[iCnt]    = nums[iSingle + 1];
-                nums[iSingle + 1] = numTemp;
-                iSingle++;
-                break;
-            }
-        }
-        if (iCnt == numsSize) return nums[iSingle];
+        answer ^= nums[iSingle];
     }
+    return answer;
 }
 int main(void)
 {
