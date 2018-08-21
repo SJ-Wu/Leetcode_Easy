@@ -12,10 +12,10 @@ void printList(struct ListNode*);
 
 int main(void)
 {
-    int arr1[]={1,2,4}, arr2[]={1,3,4};
+    int arr1[]={2}, arr2[]={1};
     struct ListNode *ls1, *ls2, *sum;
-    ls1 = creatList(arr1, 3);
-    ls2 = creatList(arr2, 3);
+    ls1 = creatList(arr1, 1);
+    ls2 = creatList(arr2, 1);
     sum = mergeTwoLists(ls1, ls2);
     printf("Merger list:");
     printList(sum);
@@ -50,17 +50,17 @@ struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2) {
     struct ListNode* temp1 = l1;
     struct ListNode* temp2 = l2;
     struct ListNode* node;
+    int tempVal;
 
-    if(l1 == NULL){
-        return l2;
-    }
-    if(l2 == NULL){
-        return l1;
-    }
+    if(l1 == NULL) return l2;
+    if(l2 == NULL) return l1;
 
-    while(temp2 != NULL){
-        while(temp1 != NULL){
-            if(temp1->val == temp2->val){
+    while(temp2 != NULL)
+    {
+        while(temp1 != NULL)
+        {
+            if(temp1->val == temp2->val)
+            {
                 node = temp2;
                 temp2 = temp2->next;
                 node->next = temp1->next;
@@ -93,7 +93,11 @@ struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2) {
             else if(temp2->val < temp1->val){
                 node = temp2;
                 temp2 = temp2->next;
-                node->next = temp1;
+                tempVal = temp1->val;
+                temp1->val = node->val;
+                node->val  = tempVal;
+                node->next = temp1->next;
+                temp1->next = node;
                 break;
             }
             else
