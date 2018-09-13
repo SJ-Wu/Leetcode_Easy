@@ -11,7 +11,7 @@ typedef struct list{
 MyLinkedList* myLinkedListCreate() {
     MyLinkedList *obj;
     obj = (MyLinkedList*)malloc(sizeof(MyLinkedList));
-    obj->val  = 0;
+    obj->val  = -1;
     obj->next = NULL;
     return obj;
 }
@@ -35,15 +35,23 @@ MyLinkedList* getTail(MyLinkedList* obj){
 /** Get the value of the index-th node in the linked list. If the index is invalid, return -1. */
 int myLinkedListGet(MyLinkedList* obj, int index) {
     MyLinkedList* cur = getNode(obj, index);
-    return cur == NULL ? -1 : cur->val;
+    return (cur == NULL || cur->val == -1) ? -1 : cur->val;
 }
 
 /** Add a node of value val before the first element of the linked list. After the insertion, the new node will be the first node of the linked list. */
 void myLinkedListAddAtHead(MyLinkedList* obj, int val) {
+    int tmpval;
     MyLinkedList* cur = myLinkedListCreate();
     cur->val = val;
-    cur->next = obj;
-    obj = cur;
+    if (obj->val != -1){
+        tmpval = obj->val;
+        obj->val = cur->val;
+        cur->val = tmpval;
+        cur->next = obj->next;
+        obj->next = cur;
+    }else {
+        obj->val = val;
+    }
     return;
 }
 
@@ -69,7 +77,7 @@ void myLinkedListAddAtIndex(MyLinkedList* obj, int index, int val) {
         return;
     }
     MyLinkedList* prev = getNode(obj, index-1);
-    if (prev == NULL) {
+    if (prev == NULL || prev-> val == -1) {
         return;
     }
     MyLinkedList* cur = myLinkedListCreate();
@@ -129,18 +137,14 @@ int main(void)
 {
     int param_1;
     MyLinkedList* obj = myLinkedListCreate();
-    myLinkedListAddAtHead(obj, 1);
+    myLinkedListAddAtHead(obj, 7);
+    myLinkedListAddAtTail(obj, 7);
+    myLinkedListAddAtHead(obj, 9);
+    myLinkedListAddAtTail(obj, 8);
+    myLinkedListAddAtHead(obj, 6);
+    param_1 = myLinkedListGet(obj, 3);
+    printf("%d\n", param_1);
     myLinkedListShow(obj);
-    myLinkedListAddAtTail(obj, 3);
-    myLinkedListShow(obj);
-    myLinkedListAddAtIndex(obj, 1, 2);
-    myLinkedListShow(obj);
-    param_1 = myLinkedListGet(obj, 1);
-    printf("Get|%d\n", param_1);
-    myLinkedListDeleteAtIndex(obj, 1);
-    myLinkedListShow(obj);
-    param_1 = myLinkedListGet(obj, 1);
-    printf("Get|%d\n", param_1);
     myLinkedListFree(obj);
     getchar();
     return 0;
